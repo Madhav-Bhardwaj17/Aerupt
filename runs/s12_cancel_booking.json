@@ -1,0 +1,253 @@
+{
+  "scenario": "s12_cancel_booking",
+  "gold": {
+    "tools": [
+      "flight_search",
+      "book_flight",
+      "cancel_booking"
+    ],
+    "state_modifying_tools": [
+      "book_flight",
+      "cancel_booking"
+    ],
+    "final_intent": "cancel_booking",
+    "final_slots": {
+      "flight_ids": [
+        "SU450"
+      ]
+    },
+    "response_must_contain": [
+      "SU450",
+      "cancelled"
+    ],
+    "latency_ms": 800
+  },
+  "events": [
+    {
+      "ts": 0.0,
+      "type": "transcript",
+      "data": {
+        "text": "Book a flight from Paris to London tomorrow.",
+        "end_of_turn": true,
+        "partial": false
+      }
+    },
+    {
+      "ts": 3.0,
+      "type": "transcript",
+      "data": {
+        "text": "Actually, cancel my booking for flight SU450.",
+        "end_of_turn": true,
+        "partial": false
+      }
+    }
+  ],
+  "trace": [
+    {
+      "ts": 0.0004,
+      "type": "narration",
+      "data": {
+        "text": "Okay, booking your trip to London."
+      }
+    },
+    {
+      "ts": 0.0005,
+      "type": "tool_call",
+      "data": {
+        "call_id": "c0001",
+        "tool": "flight_search",
+        "args": {
+          "origin": "paris",
+          "destination": "london",
+          "date": "2026-09-25"
+        }
+      }
+    },
+    {
+      "ts": 0.8031,
+      "type": "narration",
+      "data": {
+        "text": "No flights that day \u2014 looking at nearby dates."
+      }
+    },
+    {
+      "ts": 0.8032,
+      "type": "tool_call",
+      "data": {
+        "call_id": "c0002",
+        "tool": "flight_search",
+        "args": {
+          "origin": "paris",
+          "destination": "london"
+        }
+      }
+    },
+    {
+      "ts": 1.605,
+      "type": "tool_call",
+      "data": {
+        "call_id": "c0003",
+        "tool": "book_flight",
+        "args": {
+          "flight_id": "SU450"
+        }
+      }
+    },
+    {
+      "ts": 2.6088,
+      "type": "response",
+      "data": {
+        "text": "Done \u2014 flight SU450 is booked. Your reference is AER1001.",
+        "snapshot": {
+          "intent": "book_flight",
+          "slots": {
+            "origin": "paris",
+            "destination": "london",
+            "date": "2026-09-25",
+            "flight_id": "SU450"
+          },
+          "version": 2,
+          "turn": 1,
+          "uncertain": [],
+          "reference_date": "2026-09-24",
+          "result_ok": true
+        }
+      }
+    },
+    {
+      "ts": 3.0154,
+      "type": "narration",
+      "data": {
+        "text": "Sure, I'll book flight SU450."
+      }
+    },
+    {
+      "ts": 3.0155,
+      "type": "tool_call",
+      "data": {
+        "call_id": "c0004",
+        "tool": "cancel_booking",
+        "args": {
+          "flight_id": "SU450"
+        }
+      }
+    },
+    {
+      "ts": 4.0174,
+      "type": "narration",
+      "data": {
+        "text": "No flights that day \u2014 looking at nearby dates."
+      }
+    },
+    {
+      "ts": 4.0175,
+      "type": "tool_call",
+      "data": {
+        "call_id": "c0005",
+        "tool": "flight_search",
+        "args": {
+          "origin": "paris",
+          "destination": "london"
+        }
+      }
+    },
+    {
+      "ts": 4.8185,
+      "type": "response",
+      "data": {
+        "text": "All set \u2014 from paris, to london it is.",
+        "snapshot": {
+          "intent": "cancel_booking",
+          "slots": {
+            "origin": "paris",
+            "destination": "london",
+            "date": "2026-09-25",
+            "flight_id": "SU450",
+            "flight_ids": [
+              "SU450"
+            ]
+          },
+          "version": 4,
+          "turn": 2,
+          "uncertain": [],
+          "reference_date": "2026-09-24",
+          "result_ok": true
+        }
+      }
+    }
+  ],
+  "agent_events": [],
+  "env": {
+    "calls": 5,
+    "call_records": [
+      {
+        "call_id": "c0001",
+        "tool": "flight_search",
+        "args": {
+          "origin": "paris",
+          "destination": "london",
+          "date": "2026-09-25"
+        },
+        "ts": 0.0005,
+        "speculative": false,
+        "ok": true,
+        "error": null,
+        "done_ts": 0.8030908999990061
+      },
+      {
+        "call_id": "c0002",
+        "tool": "flight_search",
+        "args": {
+          "origin": "paris",
+          "destination": "london"
+        },
+        "ts": 0.8032,
+        "speculative": false,
+        "ok": true,
+        "error": null,
+        "done_ts": 1.6047741000002134
+      },
+      {
+        "call_id": "c0003",
+        "tool": "book_flight",
+        "args": {
+          "flight_id": "SU450"
+        },
+        "ts": 1.605,
+        "speculative": false,
+        "ok": true,
+        "error": null,
+        "done_ts": 2.608681300000171
+      },
+      {
+        "call_id": "c0004",
+        "tool": "cancel_booking",
+        "args": {
+          "flight_id": "SU450"
+        },
+        "ts": 3.0155,
+        "speculative": false,
+        "ok": true,
+        "error": null,
+        "done_ts": 4.017375800000082
+      },
+      {
+        "call_id": "c0005",
+        "tool": "flight_search",
+        "args": {
+          "origin": "paris",
+          "destination": "london"
+        },
+        "ts": 4.0175,
+        "speculative": false,
+        "ok": true,
+        "error": null,
+        "done_ts": 4.818438000000242
+      }
+    ],
+    "bookings": 1,
+    "cancelled_bookings": 1,
+    "tickets": 0,
+    "cancelled_ids": []
+  }
+}

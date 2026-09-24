@@ -1,0 +1,154 @@
+{
+  "scenario": "s06_retry_fault_injection",
+  "gold": {
+    "tools": [
+      "flight_search"
+    ],
+    "final_intent": "flight_search",
+    "final_slots": {
+      "destination": "tokyo"
+    },
+    "response_must_contain": [
+      "SU453",
+      "flights"
+    ],
+    "fail_first_search": true,
+    "latency_ms": 700
+  },
+  "events": [
+    {
+      "ts": 0.0,
+      "type": "transcript",
+      "data": {
+        "text": "Search for flights from Paris to Tokyo tomorrow.",
+        "end_of_turn": true,
+        "partial": false
+      }
+    }
+  ],
+  "trace": [
+    {
+      "ts": 0.0003,
+      "type": "narration",
+      "data": {
+        "text": "Checking Paris to Tokyo flights, tomorrow."
+      }
+    },
+    {
+      "ts": 0.0005,
+      "type": "tool_call",
+      "data": {
+        "call_id": "c0001",
+        "tool": "flight_search",
+        "args": {
+          "origin": "paris",
+          "destination": "tokyo",
+          "date": "2026-09-25"
+        }
+      }
+    },
+    {
+      "ts": 0.7035,
+      "type": "tool_call",
+      "data": {
+        "call_id": "c0002",
+        "tool": "flight_search",
+        "args": {
+          "origin": "paris",
+          "destination": "tokyo",
+          "date": "2026-09-25"
+        }
+      }
+    },
+    {
+      "ts": 1.4057,
+      "type": "narration",
+      "data": {
+        "text": "No flights that day \u2014 looking at nearby dates."
+      }
+    },
+    {
+      "ts": 1.4057,
+      "type": "tool_call",
+      "data": {
+        "call_id": "c0003",
+        "tool": "flight_search",
+        "args": {
+          "origin": "paris",
+          "destination": "tokyo"
+        }
+      }
+    },
+    {
+      "ts": 2.1092,
+      "type": "response",
+      "data": {
+        "text": "I found 2 flights from Paris to Tokyo. SU453 economy at 09:20 for $640; SU454 business at 22:05 for $712. Cheapest is $640. Shall I book the cheapest?",
+        "snapshot": {
+          "intent": "flight_search",
+          "slots": {
+            "origin": "paris",
+            "destination": "tokyo",
+            "date": "2026-09-25"
+          },
+          "version": 1,
+          "turn": 1,
+          "uncertain": [],
+          "reference_date": "2026-09-24",
+          "result_ok": true
+        }
+      }
+    }
+  ],
+  "agent_events": [],
+  "env": {
+    "calls": 3,
+    "call_records": [
+      {
+        "call_id": "c0001",
+        "tool": "flight_search",
+        "args": {
+          "origin": "paris",
+          "destination": "tokyo",
+          "date": "2026-09-25"
+        },
+        "ts": 0.0005,
+        "speculative": false,
+        "ok": false,
+        "error": "upstream_timeout",
+        "done_ts": 0.7034681999994064
+      },
+      {
+        "call_id": "c0002",
+        "tool": "flight_search",
+        "args": {
+          "origin": "paris",
+          "destination": "tokyo",
+          "date": "2026-09-25"
+        },
+        "ts": 0.7035,
+        "speculative": false,
+        "ok": true,
+        "error": null,
+        "done_ts": 1.4056261999994604
+      },
+      {
+        "call_id": "c0003",
+        "tool": "flight_search",
+        "args": {
+          "origin": "paris",
+          "destination": "tokyo"
+        },
+        "ts": 1.4057,
+        "speculative": false,
+        "ok": true,
+        "error": null,
+        "done_ts": 2.1090815999996266
+      }
+    ],
+    "bookings": 0,
+    "cancelled_bookings": 0,
+    "tickets": 0,
+    "cancelled_ids": []
+  }
+}

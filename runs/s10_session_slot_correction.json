@@ -1,0 +1,180 @@
+{
+  "scenario": "s10_session_slot_correction",
+  "gold": {
+    "tools": [
+      "flight_search"
+    ],
+    "final_intent": "flight_search",
+    "final_slots": {
+      "destination": "tokyo"
+    },
+    "response_must_contain": [
+      "Tokyo",
+      "SU453"
+    ],
+    "must_cancel": true,
+    "latency_ms": 800
+  },
+  "events": [
+    {
+      "ts": 0.0,
+      "type": "transcript",
+      "data": {
+        "text": "Search for flights from Paris to London tomorrow.",
+        "end_of_turn": true,
+        "partial": false
+      }
+    },
+    {
+      "ts": 0.35,
+      "type": "transcript",
+      "data": {
+        "text": "Actually to Tokyo.",
+        "end_of_turn": true,
+        "partial": false
+      }
+    }
+  ],
+  "trace": [
+    {
+      "ts": 0.0004,
+      "type": "narration",
+      "data": {
+        "text": "Checking Paris to London flights, tomorrow."
+      }
+    },
+    {
+      "ts": 0.0005,
+      "type": "tool_call",
+      "data": {
+        "call_id": "c0001",
+        "tool": "flight_search",
+        "args": {
+          "origin": "paris",
+          "destination": "london",
+          "date": "2026-09-25"
+        }
+      }
+    },
+    {
+      "ts": 0.3603,
+      "type": "filler",
+      "data": {
+        "text": "One moment \u2014 let me redo that."
+      }
+    },
+    {
+      "ts": 0.3604,
+      "type": "tool_call",
+      "data": {
+        "call_id": "c0002",
+        "tool": "flight_search",
+        "args": {
+          "origin": "paris",
+          "destination": "tokyo",
+          "date": "2026-09-25"
+        }
+      }
+    },
+    {
+      "ts": 0.3911,
+      "type": "cancel",
+      "data": {
+        "call_ids": [
+          "c0001"
+        ]
+      }
+    },
+    {
+      "ts": 1.1714,
+      "type": "narration",
+      "data": {
+        "text": "No flights that day \u2014 looking at nearby dates."
+      }
+    },
+    {
+      "ts": 1.1715,
+      "type": "tool_call",
+      "data": {
+        "call_id": "c0003",
+        "tool": "flight_search",
+        "args": {
+          "origin": "paris",
+          "destination": "tokyo"
+        }
+      }
+    },
+    {
+      "ts": 1.9859,
+      "type": "response",
+      "data": {
+        "text": "I found 2 flights from Paris to Tokyo. SU453 economy at 09:20 for $640; SU454 business at 22:05 for $712. Cheapest is $640. Shall I book the cheapest?",
+        "snapshot": {
+          "intent": "flight_search",
+          "slots": {
+            "origin": "paris",
+            "destination": "tokyo",
+            "date": "2026-09-25"
+          },
+          "version": 2,
+          "turn": 2,
+          "uncertain": [],
+          "reference_date": "2026-09-24",
+          "result_ok": true
+        }
+      }
+    }
+  ],
+  "agent_events": [],
+  "env": {
+    "calls": 3,
+    "call_records": [
+      {
+        "call_id": "c0001",
+        "tool": "flight_search",
+        "args": {
+          "origin": "paris",
+          "destination": "london",
+          "date": "2026-09-25"
+        },
+        "ts": 0.0005,
+        "speculative": false,
+        "ok": true,
+        "error": null
+      },
+      {
+        "call_id": "c0002",
+        "tool": "flight_search",
+        "args": {
+          "origin": "paris",
+          "destination": "tokyo",
+          "date": "2026-09-25"
+        },
+        "ts": 0.3604,
+        "speculative": false,
+        "ok": true,
+        "error": null,
+        "done_ts": 1.1713643000002776
+      },
+      {
+        "call_id": "c0003",
+        "tool": "flight_search",
+        "args": {
+          "origin": "paris",
+          "destination": "tokyo"
+        },
+        "ts": 1.1715,
+        "speculative": false,
+        "ok": true,
+        "error": null,
+        "done_ts": 1.9858261000008497
+      }
+    ],
+    "bookings": 0,
+    "cancelled_bookings": 0,
+    "tickets": 0,
+    "cancelled_ids": [
+      "c0001"
+    ]
+  }
+}
