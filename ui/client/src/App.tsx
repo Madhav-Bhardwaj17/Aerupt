@@ -120,6 +120,8 @@ export default function App() {
         <main className="min-h-0">
           <ChatFeed feed={feed} onReply={doCommit} />
         </main>
+        
+        {/* Desktop aside */}
         <aside className="hidden min-h-0 flex-col gap-3 overflow-y-auto border-l border-white/10 p-4 lg:flex">
           <SignalPanel onInterrupt={onInterrupt} lastInterruptAt={lastInterruptAt} />
           <SnapshotPanel feed={feed} />

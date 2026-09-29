@@ -118,7 +118,7 @@ export function ChatFeed({
           {blocks.map(({ m }) => {
             if (m.kind === "user") return userBubble(m);
             if (m.kind === "tool_call") {
-              return <ToolCard key={m.id} tool={m as ToolItem} />;
+              return <ToolCard key={m.id} tool={m as ToolItem} onReply={onReply} />;
             }
             if (m.kind === "filler") {
               return (

@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { Ban, Check, Loader2, Sparkles, X } from "lucide-react";
 import type { ToolItem } from "../lib/types";
+import { FlightResultCard, type Flight } from "./FlightResultCard";
 
 const ICONS: Record<string, string> = {
   flight_search: "✈",
@@ -11,8 +12,8 @@ const ICONS: Record<string, string> = {
   rent_car: "🚗",
 };
 
-export function ToolCard({ tool }: { tool: ToolItem }) {
-  const { tool: name, args, speculative, status, summary, error } = tool;
+export function ToolCard({ tool, onReply }: { tool: ToolItem; onReply?: (t: string) => void }) {
+  const { tool: name, args, speculative, status, summary, error, resultData } = tool;
   const resolved = status !== "running";
   const ok = status === "done";
 
@@ -89,6 +90,12 @@ export function ToolCard({ tool }: { tool: ToolItem }) {
           </div>
         )}
       </div>
+      {name === "flight_search" && status === "done" && Array.isArray(resultData?.flights) && onReply && (
+        <FlightResultCard
+          flights={resultData.flights as Flight[]}
+          onBook={(id) => onReply(`Book flight ${id}.`)}
+        />
+      )}
     </motion.div>
   );
 }

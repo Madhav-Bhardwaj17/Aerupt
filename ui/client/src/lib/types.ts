@@ -42,6 +42,7 @@ export interface ToolItem extends StampedMessage {
   ok?: boolean;
   error?: string;
   summary?: string;
+  resultData?: Record<string, unknown>;
 }
 
 export interface Snapshot {

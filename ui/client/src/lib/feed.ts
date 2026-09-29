@@ -137,6 +137,7 @@ export function reduceFeed(state: FeedState, msg: ServerMessage): FeedState {
         ok,
         error: d.error ? String(d.error) : undefined,
         summary: summarizeResult(String(d.tool ?? cur.tool), ok, (d.result as Record<string, unknown>) ?? {}),
+        resultData: (d.result as Record<string, unknown>) ?? {},
       }));
       break;
     }
